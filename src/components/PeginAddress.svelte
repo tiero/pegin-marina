@@ -18,7 +18,7 @@
   const getPeginAddress = async () => {
     isLoadingButton = true;
 
-      // initialize the module
+    // initialize the module
     const peginModule = new ElementsPegin(
       await ElementsPegin.withGoElements(),
       await ElementsPegin.withLibwally()
@@ -26,8 +26,6 @@
 
     const network = await window.marina.getNetwork();
     const addrObj = await window.marina.getNextAddress();
-
-    
 
     claimScript = address
       .toOutputScript(addrObj.confidentialAddress, networks[network])
@@ -37,7 +35,7 @@
 
     try {
       peginAddress = await peginModule.getMainchainAddress(claimScript);
-      console.log(network, addrObj, claimScript, peginAddress)
+      console.log(network, addrObj, claimScript, peginAddress);
 
       peginStore.update((store) => {
         return {
@@ -56,7 +54,7 @@
     isLoadingButton = false;
   };
 
-  const showAddress = async (index: number) => {
+  const showAddress = async (index) => {
     peginAddress = generatedAddresses[index];
   };
 </script>
@@ -85,8 +83,8 @@
     </div>
   {/each}
 
-  <button 
-    class="button is-primary {isLoadingButton && 'is-loading'}" 
+  <button
+    class="button is-primary {isLoadingButton && 'is-loading'}"
     on:click={getPeginAddress}
   >
     Generate with Marina

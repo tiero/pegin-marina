@@ -1,14 +1,14 @@
 <script type="typescript">
   import ElementsPegin from 'pegin';
 
-  import { peginStore, PeginInfo, Deposit } from '../stores/store';
+  import { peginStore } from '../stores/store';
 
   import PeginAddress from './PeginAddress.svelte';
   import BitcoinTransactions from './BitcoinTransactions.svelte';
 
   const onClaim = async (evt) => {
-    const {txid, claimScript} = evt.detail;
-    console.log(txid, claimScript)
+    const { txid, claimScript } = evt.detail;
+    console.log(txid, claimScript);
     // initialize the module
     const peginModule = new ElementsPegin(
       await ElementsPegin.withGoElements(),
@@ -20,9 +20,11 @@
     const response = await fetch(`https://blockstream.info/api/tx/${txid}/hex`);
     const btcTxHex = await response.text();
 
-    const response2 = await fetch(`https://blockstream.info/api/tx/${txid}/merkleblock-proof`);
+    const response2 = await fetch(
+      `https://blockstream.info/api/tx/${txid}/merkleblock-proof`
+    );
     const btcTxOutProof = await response2.text();
-    
+
     //pass them along the Liquid script used to generate the pegin address
     let claimTx = await peginModule.claimTx(
       btcTxHex,
@@ -30,9 +32,9 @@
       claimScript
     );
 
-    console.log(claimTx)
+    console.log(claimTx);
 
-   /*  const response3 = await fetch(
+    /*  const response3 = await fetch(
       `https://blockstream.info/liquid/api/tx/push`, 
       {
         method: `POST`, 
@@ -44,12 +46,12 @@
   // Show deposits
   let normalizedDeposits = [];
   peginStore.subscribe((store) => {
-    Object.values(store).forEach((pegin: PeginInfo) => {
+    Object.values(store).forEach((pegin) => {
       const { claimScript, peginAddress, deposits } = pegin;
 
       if (!Array.isArray(deposits)) return;
 
-      deposits.forEach((deposit: Deposit) =>
+      deposits.forEach((deposit) =>
         normalizedDeposits.push({
           claimScript,
           peginAddress,

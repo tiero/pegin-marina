@@ -5,8 +5,8 @@
 
   const dispatch = createEventDispatcher();
 
-  const notifyOnClaim = (txid, claimScript) => dispatch('claim', {txid, claimScript} );
-
+  const notifyOnClaim = (txid, claimScript) =>
+    dispatch('claim', { txid, claimScript });
 </script>
 
 <table class="table is-striped">
@@ -22,14 +22,23 @@
       <tr>
         <td>{deposit.peginAddress}</td>
         <td>
-          <a 
-            href={`https://blockstream.info/tx/${deposit.txid}`} 
+          <a
+            href={`https://blockstream.info/tx/${deposit.txid}`}
             target="_blank"
           >
-            {deposit.txid.substring(0, 10)}...{deposit.txid.substring(deposit.txid.length -10, deposit.txid.length)}
+            {deposit.txid.substring(0, 10)}...{deposit.txid.substring(
+              deposit.txid.length - 10,
+              deposit.txid.length
+            )}
           </a>
         </td>
-        <td><button class="button is-small" on:click={() => notifyOnClaim(deposit.txid, deposit.claimScript)}>CLAIM</button></td>
+        <td
+          ><button
+            class="button is-small"
+            on:click={() => notifyOnClaim(deposit.txid, deposit.claimScript)}
+            >CLAIM</button
+          ></td
+        >
       </tr>
     {/each}
   </tbody>
