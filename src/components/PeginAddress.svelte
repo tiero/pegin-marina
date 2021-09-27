@@ -1,7 +1,6 @@
 <script type="typescript">
   import { peginStore } from '../stores/store';
 
-  import { onMount } from 'svelte';
   import ElementsPegin from 'pegin';
   import { address, networks } from 'liquidjs-lib';
 
@@ -13,22 +12,22 @@
   });
 
   let isLoadingButton = false;
-  let peginModule, claimScript, peginAddress;
-
-  onMount(async () => {
-    // initialize the module
-    peginModule = new ElementsPegin(
-      await ElementsPegin.withGoElements(),
-      await ElementsPegin.withLibwally()
-    );
-  });
+  let claimScript, peginAddress;
 
   // get a pegin address to deposit Bitcoin
   const getPeginAddress = async () => {
     isLoadingButton = true;
 
+      // initialize the module
+    const peginModule = new ElementsPegin(
+      await ElementsPegin.withGoElements(),
+      await ElementsPegin.withLibwally()
+    );
+
     const network = await window.marina.getNetwork();
     const addrObj = await window.marina.getNextAddress();
+
+    
 
     claimScript = address
       .toOutputScript(addrObj.confidentialAddress, networks[network])
@@ -38,6 +37,8 @@
 
     try {
       peginAddress = await peginModule.getMainchainAddress(claimScript);
+      console.log(network, addrObj, claimScript, peginAddress)
+
       peginStore.update((store) => {
         return {
           ...store,
