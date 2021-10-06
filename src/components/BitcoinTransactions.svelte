@@ -13,6 +13,7 @@
   <thead>
     <tr>
       <th>Deposit address</th>
+      <th>Claim script</th>
       <th>Transaction ID</th>
       <th>Action</th>
     </tr>
@@ -21,6 +22,7 @@
     {#each deposits as deposit}
       <tr>
         <td>{deposit.peginAddress}</td>
+        <td>{deposit.claimScript}</td>
         <td>
           <a
             href={`https://blockstream.info/tx/${deposit.txid}`}
